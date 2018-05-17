@@ -28,10 +28,10 @@ public class Player : MonoBehaviour {
     }
 
     void OnInput() {
-            Swap();
+        Swap();
     }
 
-    void Swap() {
+    public void Swap() {
         switch (activeSide) {
             case PlayerSide.LEFT:
                 activeSide = PlayerSide.RIGHT;

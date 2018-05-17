@@ -20,8 +20,9 @@ public class GameplayManager:MonoBehaviour {
     }
     //TAP TO SWAP
     private IEnumerator StartGame() {
-        yield return StartCoroutine(Tutorial.Run());
-        throw new NotImplementedException("Load ui, load map, load tutorial");
+        yield return StartCoroutine(Tutorial.Run(playerSource));
+        playerHasControl = true;
+        Debug.Log("startgame: Load ui, load map, load tutorial");
     }
 
     private void Update() {
@@ -31,6 +32,6 @@ public class GameplayManager:MonoBehaviour {
     }
 
     private void EndGame() {
-        throw new NotImplementedException("Dissolve map and player, Load end ui");
+        Debug.Log("Endgame: Dissolve map and player, Load end ui");
     }
 }
