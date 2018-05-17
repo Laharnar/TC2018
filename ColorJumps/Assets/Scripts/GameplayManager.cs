@@ -22,6 +22,7 @@ public class GameplayManager:MonoBehaviour {
     private IEnumerator StartGame() {
         yield return StartCoroutine(Tutorial.Run(playerSource));
         playerHasControl = true;
+        MapManager.LoadMap();
         Debug.Log("startgame: Load ui, load map, load tutorial");
     }
 
@@ -29,9 +30,15 @@ public class GameplayManager:MonoBehaviour {
         if (playerSource.health < 1) {
             EndGame();
         }
+        if (Input.GetKeyUp(KeyCode.R)) {
+            EndGame();
+            StartGame();
+        }
     }
 
     private void EndGame() {
         Debug.Log("Endgame: Dissolve map and player, Load end ui");
+        MapManager.StopMap();
+        playerHasControl = false;
     }
 }

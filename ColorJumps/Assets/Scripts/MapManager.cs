@@ -1,4 +1,5 @@
 ﻿#define PC
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,10 +16,12 @@ public class MapManager:MonoBehaviour {
     public float backgroundSize = 10f;
 
     public float speed = 1;
+    float originalSpeed = 0;
 
     public Transform spawnPoint;
 
     private void Start() {
+        originalSpeed = speed;
         m = this;
         if (backgroundSlots.Count >= 2) {
             backgroundSlots[0].instance.transform.position = Vector3.up * backgroundSize;
@@ -35,5 +38,13 @@ public class MapManager:MonoBehaviour {
             }
             backgroundSlots[i].instance.Translate(Vector2.down * Time.deltaTime * speed);
         }
+    }
+
+    internal static void StopMap() {
+        m.speed = 0;
+    }
+
+    internal static void LoadMap() {
+        m.speed = m.originalSpeed;
     }
 }
