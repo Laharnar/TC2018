@@ -7,7 +7,10 @@ public class GameplayManager:MonoBehaviour {
     public Player playerSource;
     public UiManager uiSource;
 
+    static int coin=0;
+
     public static bool playerHasControl = false;
+    public static bool mapIsGenerated = true;
 
     private void Start() {
         if (!playerSource)
@@ -20,14 +23,18 @@ public class GameplayManager:MonoBehaviour {
     }
     //TAP TO SWAP
     private IEnumerator StartGame() {
+        coin = 0;
+        mapIsGenerated = false;
+        playerHasControl = false;
         yield return StartCoroutine(Tutorial.Run(playerSource));
         playerHasControl = true;
-        MapManager.LoadMap();
+        mapIsGenerated = true;
+        MapManager.StartBackground();
         Debug.Log("startgame: Load ui, load map, load tutorial");
     }
 
     private void Update() {
-        if (playerSource.health < 1) {
+        if (playerSource.gameObject.activeSelf == false) {
             EndGame();
         }
         if (Input.GetKeyUp(KeyCode.R)) {
@@ -38,7 +45,11 @@ public class GameplayManager:MonoBehaviour {
 
     private void EndGame() {
         Debug.Log("Endgame: Dissolve map and player, Load end ui");
-        MapManager.StopMap();
+        MapManager.StopBackground();
         playerHasControl = false;
+    }
+
+    internal static void AddCoin() {
+        coin += 1;
     }
 }

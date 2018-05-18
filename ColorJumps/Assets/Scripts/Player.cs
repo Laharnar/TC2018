@@ -1,4 +1,5 @@
 ﻿#define PC
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -47,7 +48,15 @@ public class Player : MonoBehaviour {
     }
 
     private void OnTriggerEnter2D(Collider2D collision) {
-        health -= 1;
-        Destroy(collision.gameObject);
+        collision.GetComponent<ICollisionReciever>().OnCollidePlayer(this);
     }
+
+    internal void LoseHp() {
+        health -= 1;
+        if (health <= 0)
+            gameObject.SetActive(false);
+    }
+}
+interface ICollisionReciever {
+    void OnCollidePlayer(Player player);
 }
