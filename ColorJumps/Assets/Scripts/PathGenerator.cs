@@ -1,55 +1,74 @@
 ﻿#define PC
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PathGenerator:MonoBehaviour {
 
+public class PathGenerator:MonoBehaviour {
+    public static PathGenerator m;
     [Range(0f, 1f)]
     public float trackEmptyness = 0.5f; // 1: full every x secs
 
     [Range(0f, 1f)]
-    public float coin_wall_weight = 0.3f;// 0.3 -> one third will be coins, 1 -> all coins
+    public float coinVsWallWeight = 0.3f;// 0.3 -> one third will be coins, 1 -> all coins
+
+    [Range(0f, 1f)]
+    public float camChangeWeight = 0.1f;// 0.3 -> one third will be coins, 1 -> all coins
 
     public float spawnRate = 1f;
 
     public List<Transform> coinPrefs = new List<Transform>();
     public List<Transform> wallPrefs = new List<Transform>();
+    public List<Transform> camChangesPrefs = new List<Transform>();
 
-    private void Start() {
-        StartCoroutine(Generator());
+    private void Awake() {
+        m = this;
+    }
+
+    public static void StartPath() {
+        m.StartCoroutine(m.Generator());
     }
 
     private IEnumerator Generator() {
-        yield return null;
+        yield return new WaitForEndOfFrame();
+        Debug.Log("asd");
         while (GameplayManager.mapIsGenerated) {
-            int spawnMode = GetSpawnId();
+            int spawnMode = ChooseSpawnItem();
+            Debug.Log(spawnMode);
             if (spawnMode == -1) {
                 // nothing
-            } else
-            if (spawnMode == 1 && coinPrefs.Count > 0) {
+            } else if (spawnMode == 0) {
+                SpawnRandomItemOnMap(camChangesPrefs);
+            } else if (spawnMode == 1 && coinPrefs.Count > 0) {
                 // spawn coin
-                int id = Random.Range(0, coinPrefs.Count);
-                GeneratedPath.AddItem(Instantiate(coinPrefs[id], MapManager.m.spawnPoint.transform.position, new Quaternion()));
+                SpawnRandomItemOnMap(coinPrefs);
             } else if (spawnMode == 2) {
                 // spawn wall
-                if (wallPrefs.Count > 0) {
-                    int id = Random.Range(0, wallPrefs.Count);
-                    GeneratedPath.AddItem(Instantiate(wallPrefs[id], MapManager.m.spawnPoint.transform.position, new Quaternion()));
-                } else {
-                    Debug.Log("Nothing to spawn, no data.", this);
-                }
+                SpawnRandomItemOnMap(wallPrefs);
             }
             yield return new WaitForSeconds(spawnRate);
         }
     }
 
-    private int GetSpawnId() {
+    private void SpawnRandomItemOnMap(List<Transform> items) {
+        if (items.Count > 0) {
+            int id = UnityEngine.Random.Range(0, items.Count);
+            GeneratedPath.AddItem(Instantiate(items[id], MapManager.m.spawnPoint.transform.position, new Quaternion()));
+        } else {
+            Debug.Log("No items to spawn.");
+        }
+    }
+
+    private int ChooseSpawnItem() {
         int id = -1; // nothing
         bool spawnSmth = UnityEngine.Random.Range(0f, 1f) > trackEmptyness;
         if (spawnSmth) {
-            return coin_wall_weight == 1 
-                || UnityEngine.Random.Range(0f, 1f) <= coin_wall_weight ? 1 : 2;
+            if (UnityEngine.Random.Range(0, 1f) <= camChangeWeight)
+                return 0;// camera change
+            if (coinVsWallWeight == 1 || UnityEngine.Random.Range(0f, 1f) <= coinVsWallWeight)
+                return 1; // coin
+            else return 2; // wall
         }
         return id;
     }

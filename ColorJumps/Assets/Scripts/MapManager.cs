@@ -22,6 +22,8 @@ public class MapManager:MonoBehaviour {
 
     public Transform spawnPoint;
 
+    public float minPoint = -20f;
+
     private void Start() {
         m = this;
         originalSpeed = backgroundSpeed;
@@ -35,8 +37,8 @@ public class MapManager:MonoBehaviour {
     private void Update() {
         // move backgrounds and keep them aligned
         for (int i = 0; i < backgroundSlots.Count; i++) {
-            if (backgroundSlots[i].instance.position.y < -backgroundSize) {
-                int prevBkg = (i + 1) % backgroundSlots.Count;
+            if (backgroundSlots[i].instance.position.y < minPoint) {
+                int prevBkg = (i - 1+backgroundSlots.Count) % backgroundSlots.Count;
                 backgroundSlots[i].instance.position = (Vector2)backgroundSlots[prevBkg].instance.position+Vector2.up*backgroundSize;
             }
             backgroundSlots[i].instance.Translate(Vector2.down * Time.deltaTime * backgroundSpeed);
@@ -50,7 +52,7 @@ public class MapManager:MonoBehaviour {
                 continue;
             }
             pathItems[i].Translate(Vector2.down * Time.deltaTime * pathSpeed);
-            if (pathItems[i].transform.position.y < -20) {
+            if (pathItems[i].transform.position.y < minPoint) {
                 Destroy(pathItems[i].gameObject);
             }
         }

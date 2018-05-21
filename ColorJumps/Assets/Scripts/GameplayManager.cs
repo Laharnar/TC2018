@@ -30,6 +30,7 @@ public class GameplayManager:MonoBehaviour {
         playerHasControl = true;
         mapIsGenerated = true;
         MapManager.StartBackground();
+        PathGenerator.StartPath();
         Debug.Log("startgame: Load ui, load map, load tutorial");
     }
 

@@ -48,7 +48,10 @@ public class Player : MonoBehaviour {
     }
 
     private void OnTriggerEnter2D(Collider2D collision) {
-        collision.GetComponent<ICollisionReciever>().OnCollidePlayer(this);
+        ICollisionReciever[] r = collision.GetComponents<ICollisionReciever>();
+        foreach (var item in r) {
+            item.OnCollidePlayer(this);
+        }
     }
 
     internal void LoseHp() {
@@ -56,7 +59,4 @@ public class Player : MonoBehaviour {
         if (health <= 0)
             gameObject.SetActive(false);
     }
-}
-interface ICollisionReciever {
-    void OnCollidePlayer(Player player);
 }
