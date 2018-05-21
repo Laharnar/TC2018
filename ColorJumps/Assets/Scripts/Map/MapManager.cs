@@ -4,6 +4,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Moves level and backgrounds down, and makes sure backgrounds repeat.
+/// </summary>
 public class MapManager:MonoBehaviour {
 
     public static MapManager m;

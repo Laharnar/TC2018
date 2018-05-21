@@ -4,7 +4,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
+/// <summary>
+/// Spawns interactible parts of level.
+/// </summary>
 public class PathGenerator:MonoBehaviour {
     public static PathGenerator m;
     [Range(0f, 1f)]
