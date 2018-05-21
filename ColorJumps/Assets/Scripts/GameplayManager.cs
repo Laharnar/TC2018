@@ -7,7 +7,7 @@ public class GameplayManager:MonoBehaviour {
     public Player playerSource;
     public UiManager uiSource;
 
-    static int coin=0;
+    public static int coins=0;
 
     public static bool playerHasControl = false;
     public static bool mapIsGenerated = true;
@@ -23,7 +23,7 @@ public class GameplayManager:MonoBehaviour {
     }
     //TAP TO SWAP
     private IEnumerator StartGame() {
-        coin = 0;
+        coins = 0;
         mapIsGenerated = false;
         playerHasControl = false;
         yield return StartCoroutine(Tutorial.Run(playerSource));
@@ -50,7 +50,7 @@ public class GameplayManager:MonoBehaviour {
         playerHasControl = false;
     }
 
-    internal static void AddCoin() {
-        coin += 1;
+    internal static void AddCoin(int amount) {
+        coins += amount;
     }
 }
