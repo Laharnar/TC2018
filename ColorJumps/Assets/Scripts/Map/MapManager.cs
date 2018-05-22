@@ -30,6 +30,7 @@ public class MapManager:MonoBehaviour {
 
     public float speedMultiplier = 1.02f;
 
+
     private void Start() {
         m = this;
 
