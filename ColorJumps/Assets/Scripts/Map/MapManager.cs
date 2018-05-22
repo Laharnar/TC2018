@@ -1,4 +1,4 @@
-﻿#define PC
+﻿
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -21,19 +21,33 @@ public class MapManager:MonoBehaviour {
 
     public float backgroundSpeed = 1;
     public float pathSpeed = 1;
-    float originalSpeed = 0;
+    float originalBackgroundSpeed = 0;
+    float originalPathSpeed = 0;
 
     public Transform spawnPoint;
 
     public float minPoint = -20f;
 
+    public float speedMultiplier = 1.02f;
+
     private void Start() {
         m = this;
-        originalSpeed = backgroundSpeed;
+
+        originalBackgroundSpeed = backgroundSpeed;
+        originalPathSpeed = pathSpeed;
+
         // init background
-        if (backgroundSlots.Count >= 2) {
-            backgroundSlots[0].instance.transform.position = Vector3.up * backgroundSize;
-            backgroundSlots[1].instance.transform.position = Vector3.up * backgroundSize * 2;
+        for (int i = 0; i < backgroundSlots.Count; i++) {
+            backgroundSlots[i].instance.transform.position = Vector3.up * backgroundSize*(i);
+        }
+
+        StartCoroutine(IncreaseSpeed());
+    }
+
+    private IEnumerator IncreaseSpeed() {
+        while (true) {
+            yield return new WaitForSeconds(5);
+            pathSpeed *= speedMultiplier;
         }
     }
 
@@ -45,7 +59,6 @@ public class MapManager:MonoBehaviour {
                 backgroundSlots[i].instance.position = (Vector2)backgroundSlots[prevBkg].instance.position+Vector2.up*backgroundSize;
             }
             backgroundSlots[i].instance.Translate(Vector2.down * Time.deltaTime * backgroundSpeed);
-            
         }
         // move items
         for (int i = 0; i < pathItems.Count; i++) {
@@ -66,7 +79,8 @@ public class MapManager:MonoBehaviour {
     }
 
     internal static void StartBackground() {
-        m.backgroundSpeed = m.originalSpeed;
+        m.backgroundSpeed = m.originalBackgroundSpeed;
+        m.pathSpeed = m.originalPathSpeed;
     }
 
 }

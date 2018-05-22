@@ -1,4 +1,4 @@
-﻿#define PC
+﻿
 using UnityEngine;
 [CreateAssetMenu(fileName = "Data", menuName = "Background/bkg", order = 1)]
 public class BackgroundItem:ScriptableObject {

@@ -1,11 +1,8 @@
-﻿#define PC
-using System;
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 public class GameplayManager:MonoBehaviour {
 
     public Player playerSource;
-    public UiManager uiSource;
 
     public static int coins=0;
 
@@ -15,9 +12,6 @@ public class GameplayManager:MonoBehaviour {
     private void Start() {
         if (!playerSource)
             playerSource = GameObject.FindObjectOfType<Player>();
-        if (!uiSource)
-            uiSource = GameObject.FindObjectOfType<UiManager>();
-
 
         StartCoroutine(StartGame());
     }
@@ -38,16 +32,20 @@ public class GameplayManager:MonoBehaviour {
         if (playerSource.gameObject.activeSelf == false) {
             EndGame();
         }
+#if UNITY_STANDALONE
+        // restart level
         if (Input.GetKeyUp(KeyCode.R)) {
             EndGame();
             StartGame();
         }
+#endif
     }
 
     private void EndGame() {
         Debug.Log("Endgame: Dissolve map and player, Load end ui");
         MapManager.StopBackground();
         playerHasControl = false;
+        UiManager.LoadEndGameUi();
     }
 
     internal static void AddCoin(int amount) {

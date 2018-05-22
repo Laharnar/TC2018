@@ -1,21 +1,33 @@
-﻿#define PC
-using UnityEngine;
+﻿using UnityEngine;
+
 public class UiManager:MonoBehaviour {
 
-    public UnityEngine.UI.Text coinsTarget;
-    public string coinsPrefix;
+    static UiManager m;
 
-    // Update is called once per frame
-    void Update() {
-        coinsTarget.text = coinsPrefix + GameplayManager.coins;
+    public GameObject tutorialUI;
+    public GameObject gameplayUI;
+    public GameObject endgameUI;
+
+    private void Awake() {
+        m = this;
     }
 
-    void LoadGameplayUi() {
-        // nothing?
+
+    public static void LoadTutorialUi() {
+        m.tutorialUI.SetActive(true);
+        m.gameplayUI.SetActive(false);
+        m.endgameUI.SetActive(false);
     }
 
-    void LoadEndGameUi() {
-        // total score (coins)
-        // checkpoints? direction changes?
+    public static void LoadGameplayUi() {
+        m.tutorialUI.SetActive(false);
+        m.gameplayUI.SetActive(true);
+        m.endgameUI.SetActive(false);
+    }
+
+    public static void LoadEndGameUi() {
+        m.tutorialUI.SetActive(false);
+        m.gameplayUI.SetActive(false);
+        m.endgameUI.SetActive(true);
     }
 }

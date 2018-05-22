@@ -1,4 +1,4 @@
-﻿#define PC
+﻿
 using UnityEngine;
 
 /// <summary>

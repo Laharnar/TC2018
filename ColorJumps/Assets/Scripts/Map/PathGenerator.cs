@@ -1,4 +1,4 @@
-﻿#define PC
+﻿
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -34,10 +34,8 @@ public class PathGenerator:MonoBehaviour {
 
     private IEnumerator Generator() {
         yield return new WaitForEndOfFrame();
-        Debug.Log("asd");
         while (GameplayManager.mapIsGenerated) {
             int spawnMode = ChooseSpawnItem();
-            Debug.Log(spawnMode);
             if (spawnMode == -1) {
                 // nothing
             } else if (spawnMode == 0) {

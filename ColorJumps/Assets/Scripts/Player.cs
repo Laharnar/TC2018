@@ -19,13 +19,15 @@ public class Player : MonoBehaviour {
     
     // Update is called once per frame
 	void Update () {
-#if PC
         if (GameplayManager.playerHasControl) {
+#if UNITY_STANDALONE
             if (Input.GetKeyDown(KeyCode.Space)) {
+#elif UNITY_ANDROID
+            if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began) {
+#endif
                 OnInput();
             }
         }
-#endif
     }
 
     void OnInput() {
