@@ -8,6 +8,6 @@ public class Wall:MonoBehaviour, ICollisionReciever {
     }
 
     private void OnDestroy() {
-        Debug.Log("Spawn wall destroy particles");
+        //Debug.Log("Spawn wall destroy particles");
     }
 }

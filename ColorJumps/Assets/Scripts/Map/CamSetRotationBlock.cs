@@ -1,10 +1,11 @@
-﻿
+﻿using System;
+using System.Collections;
 using UnityEngine;
 
 /// <summary>
-/// Rotates camera by x degrees, when player hits the block.
+/// Set camera to x degrees, when player hits the block.
 /// </summary>
-public class CamRotateBlock : MonoBehaviour, ICollisionReciever {
+public class CamSetRotationBlock : MonoBehaviour, ICollisionReciever {
 
     Transform cam;
 
@@ -15,7 +16,7 @@ public class CamRotateBlock : MonoBehaviour, ICollisionReciever {
     }
 
     public void OnCollidePlayer(Player player) {
-        cam.Rotate(Vector3.forward, angleDegrees);
+        cam.rotation = Quaternion.Euler(Vector3.forward * angleDegrees);
         Destroy(gameObject);
     }
 }

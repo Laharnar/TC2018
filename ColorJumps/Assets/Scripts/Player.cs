@@ -42,14 +42,14 @@ public class Player : MonoBehaviour {
             case PlayerSide.LEFT:
                 activeSide = PlayerSide.RIGHT;
                 transform.position = leftPos.position;
-                if (anim)
-                    anim.SetTrigger("LeftSide");
+                /*if (anim)
+                    anim.SetTrigger("LeftSide");*/
                 break;
             case PlayerSide.RIGHT:
                 activeSide = PlayerSide.LEFT;
                 transform.position = rightPos.position;
-                if (anim)
-                    anim.SetTrigger("RightSide");
+                /*if (anim)
+                    anim.SetTrigger("RightSide");*/
                 break;
             default:
                 break;
