@@ -28,7 +28,7 @@ public class MapManager:MonoBehaviour {
 
     public float minPoint = -20f;
 
-    public float speedMultiplier = 1.02f;
+    public float speedMultiplier = 1.06f;
 
 
     private void Start() {

@@ -15,10 +15,13 @@ public class Player : MonoBehaviour {
 
     // Where player is positioned when left/right
     public Transform leftPos, rightPos;
-    PlayerSide activeSide = PlayerSide.LEFT;
     
+    PlayerSide activeSide = PlayerSide.LEFT;
+
+    public Animator anim;
+
     // Update is called once per frame
-	void Update () {
+    void Update () {
         if (GameplayManager.playerHasControl) {
 #if UNITY_STANDALONE
             if (Input.GetKeyDown(KeyCode.Space)) {
@@ -39,10 +42,14 @@ public class Player : MonoBehaviour {
             case PlayerSide.LEFT:
                 activeSide = PlayerSide.RIGHT;
                 transform.position = leftPos.position;
+                if (anim)
+                    anim.SetTrigger("LeftSide");
                 break;
             case PlayerSide.RIGHT:
                 activeSide = PlayerSide.LEFT;
                 transform.position = rightPos.position;
+                if (anim)
+                    anim.SetTrigger("RightSide");
                 break;
             default:
                 break;
